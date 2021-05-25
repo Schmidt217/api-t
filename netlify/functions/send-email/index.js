@@ -3,12 +3,16 @@ exports.handler = async function (event, context) {
     const data = JSON.parse(event.body);
     return {
       statusCode: 200,
-      message: `You are ${data.username}, and you said "${data.message}"`,
+      body: JSON.stringify({
+        message: `You are ${data.username}, and you said "${data.message}"`,
+      }),
     };
   } catch (err) {
     return {
       statusCode: 500,
-      message: err.message,
+      body: JSON.stringify({
+        message: err.message,
+      }),
     };
   }
 };
