@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>function api</title>
+  </head>
+  <body>
+    <h2>Contact Us</h2>
+    <form id="contact-form">
+      <input type="text" name="username" placeholder="Enter Username" />
+      <textarea name="message">Enter a message...</textarea>
+      <button>Submit</button>
+    </form>
+    <script>
+      const form = document.getElementById("contact-form");
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const username = form.querySelector('[name="username"]').value;
+        const message = form.querySelector('[name="message"]').value;
+
+        fetch("/.netlify/functions/send-email", {
+          method: "POST",
+          header: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: username,
+            message: message,
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(`Success!`);
+            console.log(data);
+            alert("Success!");
+          })
+          .catch((err) => {
+            console.error(err);
+            alert("Error!");
+          });
+      });
+    </script>
+  </body>
+</html>
